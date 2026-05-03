@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1c1c2e">
+<title>수잘공 학습유형 진단 · 우리 아이에게 맞는 공부법</title>
+<meta property="og:title" content="우리 아이가 수학 못하는 이유, 3분 만에">
+<meta property="og:description" content="수잘공이 분석하는 자녀 학습유형 무료 진단">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root {
+    --bg: #f6f1e8;
+    --bg-2: #efe8da;
+    --paper: #fbf7ee;
+    --ink: #1c1c2e;
+    --ink-2: #3a3a4e;
+    --muted: #6b6356;
+    --muted-2: #9a9082;
+    --accent: #b8593d;
+    --accent-dark: #8f4530;
+    --accent-soft: #e9c5b5;
+    --gold: #b08a3e;
+    --line: #d8cfbf;
+    --serif: 'Gowun Batang', 'Noto Serif KR', serif;
+    --sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { overscroll-behavior: none; }
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(184, 89, 61, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(176, 138, 62, 0.05) 0%, transparent 50%);
+  }
+
+  /* Paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ================ HEADER ================ */
+  .header {
+    padding: 20px 24px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand-mark {
+    width: 22px; height: 22px;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .step-pill {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ================ PROGRESS ================ */
+  .progress-track {
+    height: 2px;
+    background: var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    position: absolute;
+    inset: 0 100% 0 0;
+    background: var(--accent);
+    transition: right 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  /* ================ MAIN ================ */
+  .main {
+    flex: 1;
+    padding: 32px 24px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ================ SCREENS ================ */
+  .screen { display: none; animation: fadeIn 0.5s cubic-bezier(0.4, 0.0, 0.2, 1); }
+  .screen.active { display: flex; flex-direction: column; flex: 1; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================ INTRO ================ */
+  .intro-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .intro-title {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .intro-title em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+  }
+  .intro-title em::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 2px 0;
+    height: 8px;
+    background: var(--accent-soft);
+    z-index: -1;
+    opacity: 0.6;
+  }
+  .intro-sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+  .intro-meta {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 36px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .meta-num {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .meta-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .intro-feat {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+  .intro-feat li {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .intro-feat li:last-child { border: none; }
+  .intro-feat .num {
+    font-family: var(--serif);
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ================ QUESTIONS ================ */
+  .q-num {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .q-title {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .q-helper {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  /* ================ OPTIONS ================ */
+  .opts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .opt {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+  }
+  .opt:hover, .opt:focus {
+    border-color: var(--ink);
+    background: var(--bg-2);
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .opt.selected {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .opt-mark {
+    width: 22px; height: 22px;
+    border: 1.5px solid var(--muted-2);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    transition: all 0.18s ease;
+  }
+  .opt.selected .opt-mark {
+    border-color: var(--bg);
+    background: var(--bg);
+  }
+  .opt.selected .opt-mark::after {
+    content: '';
+    width: 10px; height: 10px;
+    background: var(--ink);
+    border-radius: 50%;
+  }
+
+  /* Likert (5-point scale) */
+  .likert {
+    margin-bottom: 24px;
+  }
+  .likert-track {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .likert-btn {
+    aspect-ratio: 1;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .likert-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .likert-btn.selected {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px -2px rgba(184, 89, 61, 0.4);
+  }
+  .likert-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 0 4px;
+  }
+
+  /* ================ NAV ================ */
+  .nav {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 22px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent);
+  }
+  .btn-primary:disabled {
+    background: var(--line);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+  }
+  .btn-ghost:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .arrow { display: inline-block; transition: transform 0.2s ease; }
+  .btn-primary:hover:not(:disabled) .arrow { transform: translateX(3px); }
+
+  /* ================ LOADING ================ */
+  .loading {
+    text-align: center;
+    padding: 80px 0;
+  }
+  .loading-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .loading-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 32px;
+    line-height: 1.4;
+  }
+  .loading-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .loading-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    animation: loadingProgress 2.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+  }
+  @keyframes loadingProgress {
+    0% { width: 0%; }
+    30% { width: 35%; }
+    70% { width: 75%; }
+    100% { width: 100%; }
+  }
+  .loading-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: left;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .loading-steps li {
+    list-style: none;
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .loading-steps li.active { opacity: 1; color: var(--ink); }
+  .loading-steps li::before {
+    content: '○';
+    color: var(--muted-2);
+  }
+  .loading-steps li.active::before {
+    content: '●';
+    color: var(--accent);
+  }
+
+  /* ================ RESULT ================ */
+  .result-cover {
+    background: var(--ink);
+    color: var(--bg);
+    margin: -32px -24px 28px;
+    padding: 36px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 80% 20%, rgba(184, 89, 61, 0.25) 0%, transparent 40%),
+      radial-gradient(circle at 20% 90%, rgba(176, 138, 62, 0.15) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .result-cover-inner { position: relative; z-index: 1; }
+  .result-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .result-name {
+    font-size: 13px;
+    color: var(--accent-soft);
+    margin-bottom: 8px;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+  .result-type {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .result-tagline {
+    font-size: 14px;
+    color: var(--accent-soft);
+    line-height: 1.6;
+    padding-top: 14px;
+    border-top: 1px solid rgba(233, 197, 181, 0.25);
+  }
+
+  /* matrix */
+  .matrix {
+    margin-bottom: 28px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .matrix-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 24px 1fr 1fr;
+    grid-template-rows: 1fr 1fr 24px;
+    gap: 4px;
+    height: 180px;
+    margin-bottom: 12px;
+  }
+  .matrix-cell {
+    background: var(--bg-2);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    text-align: center;
+    padding: 6px;
+  }
+  .matrix-cell.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+    box-shadow: 0 4px 12px -3px rgba(184, 89, 61, 0.4);
+  }
+  .matrix-yaxis {
+    grid-row: 1 / 3;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    background: transparent;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    align-self: center;
+    padding: 8px 0;
+  }
+  .matrix-xaxis {
+    grid-column: 2 / 4;
+    background: transparent;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    height: 24px;
+  }
+
+  /* report sections */
+  .report-section {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .report-section:last-of-type { border-bottom: none; }
+  .section-eyebrow {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .section-h {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.35;
+  }
+  .section-body {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.75;
+  }
+  .section-body strong {
+    color: var(--ink);
+    background: var(--accent-soft);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+
+  .weakness-card {
+    background: var(--bg-2);
+    border-left: 3px solid var(--accent);
+    padding: 16px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 12px;
+  }
+  .weakness-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .weakness-text {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  .recommend-list {
+    list-style: none;
+    margin-top: 14px;
+  }
+  .recommend-list li {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .recommend-list li:last-child { border: none; padding-bottom: 4px; }
+  .rec-num {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .rec-strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  /* ================ CTA ================ */
+  .cta-card {
+    background: linear-gradient(135deg, var(--ink) 0%, #2a2a3e 100%);
+    color: var(--bg);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 90% 10%, rgba(184, 89, 61, 0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .cta-content { position: relative; z-index: 1; }
+  .cta-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .cta-title {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .cta-sub {
+    font-size: 13px;
+    color: rgba(246, 241, 232, 0.7);
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+  .form-field {
+    margin-bottom: 12px;
+  }
+  .form-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--accent-soft);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .form-input {
+    width: 100%;
+    background: rgba(246, 241, 232, 0.1);
+    border: 1px solid rgba(246, 241, 232, 0.2);
+    color: var(--bg);
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 15px;
+    transition: all 0.18s ease;
+  }
+  .form-input::placeholder { color: rgba(246, 241, 232, 0.4); }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(246, 241, 232, 0.15);
+  }
+  .cta-btn {
+    width: 100%;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 16px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 14px;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .cta-btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px -6px rgba(184, 89, 61, 0.5);
+  }
+  .cta-btn:disabled {
+    background: var(--muted-2);
+    cursor: not-allowed;
+    transform: none;
+  }
+  .cta-disclaimer {
+    font-size: 11px;
+    color: rgba(246, 241, 232, 0.45);
+    text-align: center;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* ================ FINAL ================ */
+  .final-screen {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .final-mark {
+    width: 64px; height: 64px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    margin: 0 auto 24px;
+    color: var(--accent);
+    font-size: 28px;
+  }
+  .final-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+  .final-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 28px;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ================ FOOTER ================ */
+  .footer {
+    padding: 24px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .footer-brand {
+    font-family: var(--serif);
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 13px;
+    margin-bottom: 4px;
+    letter-spacing: 0;
+  }
+
+  /* ================ UTILS ================ */
+  .hide { display: none !important; }
+
+  /* small viewport */
+  @media (max-width: 360px) {
+    .intro-title { font-size: 28px; }
+    .q-title { font-size: 22px; }
+    .result-type { font-size: 32px; }
+    .main { padding: 24px 18px; }
+    .header { padding: 16px 18px 12px; }
+    .result-cover { margin: -24px -18px 24px; padding: 28px 18px 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">數</div>
+      <div>수잘공 <span style="color:var(--muted);font-weight:400;font-family:var(--sans);font-size:12px;letter-spacing:0;">| 학습유형 진단</span></div>
+    </div>
+    <div class="step-pill" id="stepPill">시작하기</div>
+  </header>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <main class="main">
+
+    <!-- ============ INTRO ============ -->
+    <section class="screen active" id="screen-intro">
+      <div class="intro-eyebrow">학부모 무료 진단 · 약 3분</div>
+      <h1 class="intro-title">우리 아이가<br>수학을 못하는 진짜 <em>이유</em>는?</h1>
+      <p class="intro-sub">
+        성적이 안 오르는 건 머리 때문이 아닙니다.<br>
+        <strong style="color:var(--ink);">학습 유형</strong>이 맞지 않아서입니다. 11개 질문으로 자녀에게 맞는 공부법을 찾아드립니다.
+      </p>
+
+      <div class="intro-meta">
+        <div class="meta-item">
+          <div class="meta-num">11<span style="font-size:14px;color:var(--muted);">문항</span></div>
+          <div class="meta-label">QUESTIONS</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">3<span style="font-size:14px;color:var(--muted);">분</span></div>
+          <div class="meta-label">소요시간</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">20<span style="font-size:14px;color:var(--muted);">유형</span></div>
+          <div class="meta-label">조합 분석</div>
+        </div>
+      </div>
+
+      <ul class="intro-feat">
+        <li><span class="num">01</span><div><strong style="color:var(--ink);">동기 × 전략</strong> 두 축으로 자녀 학습 성향 진단</div></li>
+        <li><span class="num">02</span><div>수학 학습 <strong style="color:var(--ink);">5가지 약점 패턴</strong> 자동 분류</div></li>
+        <li><span class="num">03</span><div>유형별 맞춤 공부법 + 학원 활용 가이드 제공</div></li>
+      </ul>
+
+      <div class="nav">
+        <button class="btn btn-primary" onclick="nextScreen()">진단 시작하기 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q1 학년 ============ -->
+    <section class="screen" id="q1">
+      <div class="q-num">Question 01 / 11</div>
+      <h2 class="q-title">자녀의 현재 학년은?</h2>
+      <p class="q-helper">학년에 따라 분석 기준이 달라집니다.</p>
+      <div class="opts" data-q="grade">
+        <button class="opt" data-val="초3-4">초등 3~4학년</button>
+        <button class="opt" data-val="초5-6">초등 5~6학년</button>
+        <button class="opt" data-val="중1">중학교 1학년</button>
+        <button class="opt" data-val="중2">중학교 2학년</button>
+        <button class="opt" data-val="중3">중학교 3학년</button>
+        <button class="opt" data-val="고1">고등 1학년</button>
+        <button class="opt" data-val="고2">고등 2학년</button>
+        <button class="opt" data-val="고3">고등 3학년</button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q2 성적대 ============ -->
+    <section class="screen" id="q2">
+      <div class="q-num">Question 02 / 11</div>
+      <h2 class="q-title">현재 수학 성적대는<br>어디쯤인가요?</h2>
+      <p class="q-helper">대략적인 위치만 표시해주세요.</p>
+      <div class="opts" data-q="level">
+        <button class="opt" data-val="상위권">상위권 (상위 20% 이내)</button>
+        <button class="opt" data-val="중상위">중상위 (상위 20~40%)</button>
+        <button class="opt" data-val="중위">중위권</button>
+        <button class="opt" data-val="중하위">중하위 (하위 30~40%)</button>
+        <button class="opt" data-val="하위">하위권</button>
+        <button class="opt" data-val="모름">잘 모르겠어요</button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q3 자발성 ============ -->
+    <section class="screen" id="q3">
+      <div class="q-num">Question 03 / 11 · 동기</div>
+      <h2 class="q-title">시키지 않아도<br>스스로 수학 공부를 시작한다.</h2>
+      <p class="q-helper">자녀를 보며 평소 느끼시는 정도를 솔직하게 골라주세요.</p>
+      <div class="likert" data-q="q3">
+        <div class="likert-track">
+          <button class="likert-btn" data-val="1">1</button>
+          <button class="likert-btn" data-val="2">2</button>
+          <button class="likert-btn" data-val="3">3</button>
+          <button class="likert-btn" data-val="4">4</button>
+          <button class="likert-btn" data-val="5">5</button>
+        </div>
+        <div class="likert-labels">
+          <span>전혀 아니다</span>
+          <span>매우 그렇다</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q4 목표의식 ============ -->
+    <section class="screen" id="q4">
+      <div class="q-num">Question 04 / 11 · 동기</div>
+      <h2 class="q-title">자녀만의 공부 목표나<br>이유가 있다.</h2>
+      <p class="q-helper">"○○대 가고 싶다", "수학자 되고 싶다" 같은 자기만의 동기.</p>
+      <div class="likert" data-q="q4">
+        <div class="likert-track">
+          <button class="likert-btn" data-val="1">1</button>
+          <button class="likert-btn" data-val="2">2</button>
+          <button class="likert-btn" data-val="3">3</button>
+          <button class="likert-btn" data-val="4">4</button>
+          <button class="likert-btn" data-val="5">5</button>
+        </div>
+        <div class="likert-labels">
+          <span>없다</span>
+          <span>분명하다</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q5 회피 (역채점) ============ -->
+    <section class="screen" id="q5">
+      <div class="q-num">Question 05 / 11 · 동기</div>
+      <h2 class="q-title">어려운 문제가 나오면<br>금방 포기하거나 답지를 본다.</h2>
+      <p class="q-helper">끈기와 인내력을 가늠하는 항목입니다.</p>
+      <div class="likert" data-q="q5">
+        <div class="likert-track">
+          <button class="likert-btn" data-val="1">1</button>
+          <button class="likert-btn" data-val="2">2</button>
+          <button class="likert-btn" data-val="3">3</button>
+          <button class="likert-btn" data-val="4">4</button>
+          <button class="likert-btn" data-val="5">5</button>
+        </div>
+        <div class="likert-labels">
+          <span>전혀 아니다</span>
+          <span>매우 그렇다</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q6 시간관리 ============ -->
+    <section class="screen" id="q6">
+      <div class="q-num">Question 06 / 11 · 전략</div>
+      <h2 class="q-title">정해진 시간에<br>규칙적으로 공부한다.</h2>
+      <p class="q-helper">매일 일정한 루틴이 있는지의 정도.</p>
+      <div class="likert" data-q="q6">
+        <div class="likert-track">
+          <button class="likert-btn" data-val="1">1</button>
+          <button class="likert-btn" data-val="2">2</button>
+          <button class="likert-btn" data-val="3">3</button>
+          <button class="likert-btn" data-val="4">4</button>
+          <button class="likert-btn" data-val="5">5</button>
+        </div>
+        <div class="likert-labels">
+          <span>전혀 아니다</span>
+          <span>매우 그렇다</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q7 오답관리 ============ -->
+    <section class="screen" id="q7">
+      <div class="q-num">Question 07 / 11 · 전략</div>
+      <h2 class="q-title">틀린 문제를 따로<br>정리하거나 다시 풀어본다.</h2>
+      <p class="q-helper">수학 성적을 가장 결정적으로 가르는 습관입니다.</p>
+      <div class="likert" data-q="q7">
+        <div class="likert-track">
+          <button class="likert-btn" data-val="1">1</button>
+          <button class="likert-btn" data-val="2">2</button>
+          <button class="likert-btn" data-val="3">3</button>
+          <button class="likert-btn" data-val="4">4</button>
+          <button class="likert-btn" data-val="5">5</button>
+        </div>
+        <div class="likert-labels">
+          <span>거의 안 한다</span>
+          <span>꾸준히 한다</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q8 메타인지 ============ -->
+    <section class="screen" id="q8">
+      <div class="q-num">Question 08 / 11 · 전략</div>
+      <h2 class="q-title">시험 전, 어느 단원이 약한지<br>알고 그 부분을 집중한다.</h2>
+      <p class="q-helper">자기 수준을 정확히 파악하는 메타인지 능력.</p>
+      <div class="likert" data-q="q8">
+        <div class="likert-track">
+          <button class="likert-btn" data-val="1">1</button>
+          <button class="likert-btn" data-val="2">2</button>
+          <button class="likert-btn" data-val="3">3</button>
+          <button class="likert-btn" data-val="4">4</button>
+          <button class="likert-btn" data-val="5">5</button>
+        </div>
+        <div class="likert-labels">
+          <span>전혀 모른다</span>
+          <span>정확히 안다</span>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q9 약점 패턴 ============ -->
+    <section class="screen" id="q9">
+      <div class="q-num">Question 09 / 11 · 약점 진단</div>
+      <h2 class="q-title">자녀가 가장 자주<br>틀리는 패턴은?</h2>
+      <p class="q-helper">하나만 골라주세요. 가장 가까운 것으로.</p>
+      <div class="opts" data-q="weakness">
+        <button class="opt" data-val="calc">계산 실수가 잦다</button>
+        <button class="opt" data-val="concept">개념부터 막힌다 (기본 부족)</button>
+        <button class="opt" data-val="apply">개념은 알지만 응용·서술형이 약함</button>
+        <button class="opt" data-val="speed">시간이 부족해서 다 못 푼다</button>
+        <button class="opt" data-val="anxiety">평소엔 잘 푸는데 시험만 보면 무너진다</button>
+        <button class="opt" data-val="unknown">잘 모르겠다</button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>다음 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ Q10 걸림돌 ============ -->
+    <section class="screen" id="q10">
+      <div class="q-num">Question 10 / 11 · 걸림돌</div>
+      <h2 class="q-title">가장 큰<br>걸림돌은 무엇인가요?</h2>
+      <p class="q-helper">학부모가 보시기에 가장 시급한 문제.</p>
+      <div class="opts" data-q="obstacle">
+        <button class="opt" data-val="motivation">의지·동기 부족</button>
+        <button class="opt" data-val="method">공부 방법을 모름</button>
+        <button class="opt" data-val="basics">기초가 부족함</button>
+        <button class="opt" data-val="overload">학원·인강 따라가기 벅참</button>
+        <button class="opt" data-val="time">시간이 부족함</button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="prevScreen()">← 이전</button>
+        <button class="btn btn-primary" onclick="nextScreen()" disabled>분석 시작 <span class="arrow">→</span></button>
+      </div>
+    </section>
+
+    <!-- ============ LOADING ============ -->
+    <section class="screen" id="loading">
+      <div class="loading">
+        <div class="loading-eyebrow">분석중 · ANALYZING</div>
+        <div class="loading-title">자녀의 학습 데이터를<br>20개 유형과 비교중입니다…</div>
+        <div class="loading-bar"><div class="loading-fill"></div></div>
+        <ul class="loading-steps" id="loadingSteps">
+          <li id="ls1">동기 점수 계산</li>
+          <li id="ls2">전략 점수 계산</li>
+          <li id="ls3">학습 유형 매칭</li>
+          <li id="ls4">수학 약점 패턴 분석</li>
+          <li id="ls5">맞춤 공부법 도출</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section class="screen" id="result">
+      <div class="result-cover">
+        <div class="result-cover-inner">
+          <div class="result-eyebrow">SUJALGONG · LEARNING TYPE REPORT</div>
+          <div class="result-name" id="rGrade">중학교 2학년 · 중위권</div>
+          <div class="result-type" id="rType">잠재형 의욕파</div>
+          <div class="result-tagline" id="rTagline">
+            의욕은 있지만 방법이 부족합니다. 공부법만 잡으면 가장 빠르게 성적이 오르는 유형이에요.
+          </div>
+        </div>
+      </div>
+
+      <!-- 매트릭스 -->
+      <div class="matrix">
+        <div class="matrix-title">동기 × 전략 매트릭스</div>
+        <div class="matrix-grid">
+          <div class="matrix-cell matrix-yaxis">동기 ↑</div>
+          <div class="matrix-cell" id="m-leader">주도형<br>우등생</div>
+          <div class="matrix-cell" id="m-potential">잠재형<br>의욕파</div>
+          <div class="matrix-cell" id="m-diligent">성실<br>관리형</div>
+          <div class="matrix-cell" id="m-need">도움이<br>필요한 형</div>
+          <div class="matrix-cell matrix-xaxis" style="display:flex;justify-content:space-between;align-items:center;">
+            <span>← 전략 부족</span><span>전략 우수 →</span>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px;">
+          동기 점수 <strong id="rMotive" style="color:var(--ink);">0.0</strong> · 전략 점수 <strong id="rStrategy" style="color:var(--ink);">0.0</strong> / 5.0
+        </div>
+      </div>
+
+      <!-- 분석 -->
+      <div class="report-section">
+        <div class="section-eyebrow">— 진단 분석</div>
+        <h3 class="section-h">이 유형의 특징</h3>
+        <p class="section-body" id="rAnalysis">
+          분석 내용이 여기 들어갑니다.
+        </p>
+      </div>
+
+      <!-- 약점 -->
+      <div class="report-section">
+        <div class="section-eyebrow">— 수학 약점 진단</div>
+        <h3 class="section-h">집중 보완이 필요한 영역</h3>
+        <div class="weakness-card">
+          <span class="weakness-tag" id="rWeaknessTag">개념구멍형</span>
+          <p class="weakness-text" id="rWeaknessText">약점 설명</p>
+        </div>
+      </div>
+
+      <!-- 맞춤 공부법 -->
+      <div class="report-section">
+        <div class="section-eyebrow">— 맞춤 공부법</div>
+        <h3 class="section-h">자녀에게 가장 잘 맞는 3가지</h3>
+        <ol class="recommend-list" id="rRecommend">
+        </ol>
+      </div>
+
+      <!-- 수잘공 매칭 -->
+      <div class="report-section">
+        <div class="section-eyebrow">— 수잘공 솔루션</div>
+        <h3 class="section-h">우리는 이 유형을 어떻게 도울 수 있는가</h3>
+        <p class="section-body" id="rSolution">
+          수잘공 매칭 내용
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-card">
+        <div class="cta-content">
+          <div class="cta-eyebrow">FREE CONSULTATION</div>
+          <h3 class="cta-title">상세 결과지를<br>학부모님께 보내드릴까요?</h3>
+          <p class="cta-sub">
+            진단 결과 PDF + 1:1 무료 학습 상담을 안내해드립니다.<br>광고·홍보성 연락은 일절 보내지 않습니다.
+          </p>
+
+          <div class="form-field">
+            <label class="form-label">학부모님 성함</label>
+            <input class="form-input" type="text" id="parentName" placeholder="예) 김수잘" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label class="form-label">자녀가 다니는 학교</label>
+            <input class="form-input" type="text" id="schoolName" placeholder="예) 분당중학교">
+          </div>
+          <div class="form-field">
+            <label class="form-label">연락 가능한 번호</label>
+            <input class="form-input" type="tel" id="parentPhone" placeholder="010-0000-0000" autocomplete="tel">
+          </div>
+
+          <button class="cta-btn" id="submitBtn" onclick="submitContact()">
+            결과지 받고 무료 상담 신청 →
+          </button>
+          <p class="cta-disclaimer">
+            전화번호는 결과 발송과 1회 상담 안내에만 사용됩니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn btn-ghost" onclick="restart()">처음부터 다시</button>
+      </div>
+    </section>
+
+    <!-- ============ FINAL THANK YOU ============ -->
+    <section class="screen" id="final">
+      <div class="final-screen">
+        <div class="final-mark">✓</div>
+        <h2 class="final-title">접수가 완료되었습니다</h2>
+        <p class="final-sub">
+          영업일 기준 <strong style="color:var(--ink);">24시간 이내</strong>에 결과지와 함께 1:1 무료 상담을 안내드리겠습니다. 자녀에게 맞는 공부법, 함께 찾아드리겠습니다.
+        </p>
+        <button class="btn btn-primary" style="max-width:240px;margin:0 auto;" onclick="restart()">처음으로 돌아가기</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">數잘공 · SUJALGONG</div>
+    데이터로 연결하는 학생 · 학부모 · 선생님
+  </footer>
+
+</div>
+
+<script>
+// ============ STATE ============
+const screens = ['screen-intro','q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','loading','result','final'];
+const stepLabels = ['시작','1/11','2/11','3/11','4/11','5/11','6/11','7/11','8/11','9/11','10/11','분석중','결과','완료'];
+let current = 0;
+const answers = {};
+
+// ============ NAV ============
+function showScreen(idx) {
+  screens.forEach((s, i) => {
+    document.getElementById(s).classList.toggle('active', i === idx);
+  });
+  current = idx;
+  // progress
+  const progress = idx === 0 ? 0 :
+                  idx >= 12 ? 100 :
+                  ((idx) / 11) * 100;
+  document.getElementById('progressFill').style.right = (100 - progress) + '%';
+  document.getElementById('stepPill').textContent = stepLabels[idx];
+  // scroll top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextScreen() {
+  if (current < screens.length - 1) {
+    if (current === 10) {
+      // entering loading screen
+      showScreen(11);
+      runLoading();
+    } else {
+      showScreen(current + 1);
+      updateNextBtnState();
+    }
+  }
+}
+
+function prevScreen() {
+  if (current > 0 && current < 11) {
+    showScreen(current - 1);
+    updateNextBtnState();
+  }
+}
+
+function updateNextBtnState() {
+  const screen = document.getElementById(screens[current]);
+  if (!screen) return;
+  const opts = screen.querySelector('.opts, .likert');
+  const nextBtn = screen.querySelector('.btn-primary');
+  if (opts && nextBtn) {
+    const sel = opts.querySelector('.selected');
+    nextBtn.disabled = !sel;
+  }
+}
+
+// ============ OPTION HANDLERS ============
+document.querySelectorAll('.opts').forEach(opts => {
+  const key = opts.dataset.q;
+  opts.querySelectorAll('.opt').forEach(btn => {
+    // add mark
+    const mark = document.createElement('span');
+    mark.className = 'opt-mark';
+    btn.prepend(mark);
+    btn.addEventListener('click', () => {
+      opts.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[key] = btn.dataset.val;
+      updateNextBtnState();
+    });
+  });
+});
+
+document.querySelectorAll('.likert').forEach(lk => {
+  const key = lk.dataset.q;
+  lk.querySelectorAll('.likert-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      lk.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[key] = parseInt(btn.dataset.val, 10);
+      updateNextBtnState();
+    });
+  });
+});
+
+// ============ LOADING ANIM ============
+function runLoading() {
+  const steps = ['ls1','ls2','ls3','ls4','ls5'];
+  steps.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('active');
+    }, 300 + i * 480);
+  });
+  setTimeout(() => {
+    computeResult();
+    showScreen(12);
+  }, 2900);
+}
+
+// ============ COMPUTE RESULT ============
+const TYPES = {
+  leader: {
+    name: '주도형 우등생',
+    tagline: '동기와 전략 모두 갖춘 이상적인 유형. 자녀는 이미 잘하고 있습니다. 다음은 더 큰 목표를 향한 도약입니다.',
+    analysis: '<strong>상위 10~15%에 해당하는 유형</strong>입니다. 자기주도성, 목표의식, 학습 전략 모두 우수합니다. 다만 이 유형이 무너지는 가장 흔한 패턴은 <strong>"잘하고 있다는 안정감"</strong>이 만들어내는 정체입니다. 더 어려운 도전, 더 높은 목표가 없으면 1~2년 내에 동력이 떨어질 수 있습니다.',
+    matrixCell: 'm-leader',
+    solution: '수잘공은 이 유형의 학생에게 <strong>또래 도전 시스템</strong>과 <strong>심화 단원 자동 추천</strong>을 제공합니다. 잘하는 학생은 더 어려운 문제에 도전할 때 가장 빠르게 성장합니다. 게임화된 EXP·레벨 시스템으로 학습 동기를 끊임없이 자극하며, AI가 매주 학부모님께 자녀의 도전 활동을 리포트로 발송합니다.'
+  },
+  potential: {
+    name: '잠재형 의욕파',
+    tagline: '의욕은 충분, 방법만 잡으면 폭발합니다. 가장 빠르게 성적이 오르는 유형이에요.',
+    analysis: '의욕과 동기는 또래 평균 이상이지만, <strong>학습 전략·습관이 받쳐주지 못하는</strong> 유형입니다. "공부는 열심히 하는데 성적이 안 나온다"는 말이 정확히 이 유형이에요. 노력 대비 결과가 안 나오면 의욕도 결국 꺾입니다. 6개월이 골든타임입니다.',
+    matrixCell: 'm-potential',
+    solution: '수잘공은 이 유형의 학생에게 <strong>약점 단원 자동 진단</strong>과 <strong>오답 게임화 시스템</strong>을 제공합니다. 의욕이 이미 있으니 "어디를 공부할지"만 정확히 짚어주면 됩니다. 오답을 풀면 +30~50 보너스 점수가 쌓이고, 친구의 오답에 도전하는 익명 시스템으로 의욕을 게임처럼 유지시킵니다.'
+  },
+  diligent: {
+    name: '성실한 관리형',
+    tagline: '시키는 건 잘하는데 동기가 약합니다. "왜 공부해야 하는지"를 찾아주면 비약적으로 도약합니다.',
+    analysis: '시간 관리, 오답 정리, 시험 준비 — 학습 전략은 또래 평균 이상이지만 <strong>"왜 공부해야 하는지" 자기만의 이유</strong>가 흐릿한 유형입니다. 부모님이나 선생님의 지시에는 잘 따르지만, 사춘기를 지나며 외부 동기가 약해지면 빠르게 무너지는 패턴입니다.',
+    matrixCell: 'm-diligent',
+    solution: '수잘공은 이 유형의 학생에게 <strong>진로 연계 학습</strong>과 <strong>장기 목표 설정 코칭</strong>을 제공합니다. AI가 학생과의 대화를 통해 흥미·관심사를 파악하고, 수학이 그 진로와 어떻게 연결되는지 보여줍니다. 부모님과 선생님이 함께 학생의 동기를 점검하는 협력 시스템이 핵심입니다.'
+  },
+  need: {
+    name: '도움이 절실한 형',
+    tagline: '동기와 전략 모두 부족합니다. 지금 개입하지 않으면 격차가 빠르게 벌어집니다.',
+    analysis: '<strong>지금이 결정적 시점</strong>입니다. 동기와 학습 전략이 모두 약한 상태로, 혼자 공부하라고 두면 격차가 한 학기에 1년치씩 벌어지는 유형입니다. 다만 절대 머리가 나쁜 게 아닙니다. <strong>"공부를 시작할 작은 성공 경험"</strong>이 없을 뿐입니다. 작은 성취 → 자신감 → 의욕의 선순환을 만들어주는 게 핵심입니다.',
+    matrixCell: 'm-need',
+    solution: '수잘공은 이 유형의 학생에게 <strong>1:1 맞춤 진단</strong>과 <strong>작은 성공 누적 시스템</strong>을 제공합니다. 학생 수준에 맞는 가장 쉬운 문제부터 시작해 매일 작은 성취를 쌓고, 그것이 부모님과 선생님께 즉시 공유됩니다. "오늘 ○○가 처음으로 혼자 풀었어요" 한 줄 메시지가 아이의 인생을 바꾸기도 합니다.'
+  }
+};
+
+const WEAKNESS = {
+  calc: {
+    tag: '계산 실수형',
+    text: '개념은 알고 있는데 연산에서 점수를 흘리는 패턴입니다. 시험에서 5~15점이 매번 사라지는 가장 아까운 유형. <strong>실수는 습관입니다.</strong> 과정을 정리해 쓰는 훈련, 검산 루틴, 압박 상황에서의 침착함을 따로 훈련해야 잡힙니다.'
+  },
+  concept: {
+    tag: '개념 구멍형',
+    text: '특정 단원의 기초 개념이 비어 있어 그 위에 쌓는 모든 것이 흔들리는 유형. 학년이 올라갈수록 차이가 기하급수적으로 벌어집니다. <strong>학년을 거슬러 올라가서라도 구멍을 메꿔야 합니다.</strong> 빠른 진도보다 정확한 진단이 우선입니다.'
+  },
+  apply: {
+    tag: '응용 막힘형',
+    text: '교과서·기본서는 푸는데 모의고사·서술형에서 무너지는 유형. 개념을 "외웠지만" 진짜 "이해"하지는 못한 상태입니다. <strong>같은 개념을 여러 각도에서 묻는 문제</strong>를 반복적으로 풀어 개념의 적용 범위를 넓혀야 합니다.'
+  },
+  speed: {
+    tag: '속도 부족형',
+    text: '풀이 자체는 정확한데 시간 안에 다 못 끝내는 유형. 평소 풀이 시간을 측정하지 않은 학생에게 흔합니다. <strong>"정답률 100%인데 60% 진도"</strong>가 시험에서는 의미가 없습니다. 단원별 표준 풀이 시간 훈련이 필요합니다.'
+  },
+  anxiety: {
+    tag: '시험 불안형',
+    text: '평소 실력과 시험 점수의 격차가 큰 유형. 머리는 시험 시간에 굳어버립니다. <strong>실전 시뮬레이션을 평소 학습에 녹이는 것</strong>이 핵심이에요. 단순한 문제 풀이가 아니라 시간 압박, 모의 시험 환경에서 정답률을 안정화하는 훈련이 필요합니다.'
+  },
+  unknown: {
+    tag: '진단 필요형',
+    text: '아직 약점 패턴이 명확하지 않은 상태입니다. <strong>이 단계에서 가장 위험한 것은 "감으로 공부하는 것"</strong>입니다. 학원이든 인강이든 보내기 전에, 진단 평가를 통해 정확한 약점 영역을 먼저 찾아야 시간과 비용을 아낄 수 있습니다.'
+  }
+};
+
+const RECOMMEND_BY_TYPE = {
+  leader: [
+    ['심화 도전 문제 매주 1세트', '쉬운 문제 100개보다 어려운 문제 10개가 이 유형의 성장을 만듭니다.'],
+    ['학습 코치보다 학습 친구', '이미 자기주도가 가능한 학생에겐 코치보다 함께 도전할 동료가 더 중요합니다.'],
+    ['장기 목표 시각화', '6개월·1년 단위 학습 로드맵을 직접 짜고 매월 점검하는 루틴을 만드세요.']
+  ],
+  potential: [
+    ['약점 단원 정밀 진단부터', '진도를 빨리 빼는 것보다 어디가 비었는지부터 정확히 알아야 합니다.'],
+    ['오답 노트 게임화', '단순 정리가 아니라 일주일 후 재도전, 보너스 점수 같은 게임 요소를 더하세요.'],
+    ['공부량보다 공부 방법', '의욕은 이미 있으니 "어떻게 공부할지" 메타 학습에 시간을 투자하세요.']
+  ],
+  diligent: [
+    ['"왜"를 찾는 대화부터', '진로·관심사를 진지하게 파고드는 시간이 결국 학습 동력을 만듭니다.'],
+    ['선생님과의 대화 기회 늘리기', '잘 따라오는 학생일수록 어른과의 깊은 대화가 자기 동기를 깨웁니다.'],
+    ['작은 도전 추가', '시키는 것만 하는 패턴을 넘어 "이번엔 한 단원 더 해볼래?" 같은 자율 선택권을 주세요.']
+  ],
+  need: [
+    ['초저난도부터 다시 시작', '자존심 상하는 일이 아닙니다. 작은 성공이 쌓여야 의욕이 생깁니다.'],
+    ['하루 15분 루틴', '"공부 1시간"보다 "매일 같은 시간 15분"이 이 유형에는 압도적으로 효과적입니다.'],
+    ['부모-학생-선생님 3자 채널', '학생이 혼자 버티면 6개월이면 무너집니다. 매주 짧게라도 3자 점검이 필요합니다.']
+  ]
+};
+
+function computeResult() {
+  // motivation: q3 + q4 + (6 - q5)
+  const motive = (answers.q3 + answers.q4 + (6 - answers.q5)) / 3;
+  // strategy: q6 + q7 + q8
+  const strategy = (answers.q6 + answers.q7 + answers.q8) / 3;
+
+  let typeKey;
+  if (motive >= 3.5 && strategy >= 3.5) typeKey = 'leader';
+  else if (motive >= 3.5 && strategy < 3.5) typeKey = 'potential';
+  else if (motive < 3.5 && strategy >= 3.5) typeKey = 'diligent';
+  else typeKey = 'need';
+
+  const t = TYPES[typeKey];
+  const w = WEAKNESS[answers.weakness] || WEAKNESS.unknown;
+
+  // populate
+  document.getElementById('rGrade').textContent = `${answers.grade} · ${answers.level === '모름' ? '성적대 미선택' : answers.level}`;
+  document.getElementById('rType').textContent = t.name;
+  document.getElementById('rTagline').textContent = t.tagline;
+  document.getElementById('rAnalysis').innerHTML = t.analysis;
+  document.getElementById('rWeaknessTag').textContent = w.tag;
+  document.getElementById('rWeaknessText').innerHTML = w.text;
+  document.getElementById('rSolution').innerHTML = t.solution;
+  document.getElementById('rMotive').textContent = motive.toFixed(1);
+  document.getElementById('rStrategy').textContent = strategy.toFixed(1);
+
+  // matrix highlight
+  ['m-leader','m-potential','m-diligent','m-need'].forEach(id => {
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById(t.matrixCell).classList.add('active');
+
+  // recommendations
+  const recList = document.getElementById('rRecommend');
+  recList.innerHTML = '';
+  RECOMMEND_BY_TYPE[typeKey].forEach((rec, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="rec-num">${String(i+1).padStart(2,'0')}</span><div><span class="rec-strong">${rec[0]}</span>${rec[1]}</div>`;
+    recList.appendChild(li);
+  });
+
+  // store for submission
+  answers._type = typeKey;
+  answers._typeName = t.name;
+  answers._weakness = w.tag;
+  answers._motive = motive.toFixed(2);
+  answers._strategy = strategy.toFixed(2);
+}
+
+// ============ SUBMIT ============
+function submitContact() {
+  const name = document.getElementById('parentName').value.trim();
+  const phone = document.getElementById('parentPhone').value.trim();
+  const school = document.getElementById('schoolName').value.trim();
+
+  if (!name) { alert('성함을 입력해주세요.'); return; }
+  if (!school) { alert('자녀가 다니는 학교를 입력해주세요.'); return; }
+  if (!phone || phone.replace(/[^0-9]/g, '').length < 10) {
+    alert('올바른 전화번호를 입력해주세요.'); return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '전송중...';
+
+  const payload = {
+    name, phone, school,
+    grade: answers.grade,
+    level: answers.level,
+    type: answers._typeName,
+    weakness: answers._weakness,
+    motive: answers._motive,
+    strategy: answers._strategy,
+    weaknessRaw: answers.weakness,
+    obstacle: answers.obstacle,
+    q3: answers.q3, q4: answers.q4, q5: answers.q5,
+    q6: answers.q6, q7: answers.q7, q8: answers.q8,
+    series: 'Vol.01 학습유형',
+    timestamp: new Date().toISOString()
+  };
+
+  console.log('[수잘공 Vol.01 결과 제출]', payload);
+
+  // ===== Google Form 전송 =====
+  const formData = new FormData();
+  formData.append('entry.118535423', name);
+  formData.append('entry.2051413785', school);
+  formData.append('entry.494966616', phone);
+  formData.append('entry.17044199',
+    `[Vol.01 학습유형] ${answers._typeName} | 약점: ${answers._weakness} | 학년: ${answers.grade} | 성적: ${answers.level}`);
+  formData.append('entry.524207507', JSON.stringify(payload));
+
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSeWOwuzayeFCOFNg8jHQMOrj2ogUG1FAhVFoyTn0eUry5hVlw/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: formData
+  });
+
+  setTimeout(() => {
+    showScreen(13);
+  }, 900);
+}
+
+function restart() {
+  Object.keys(answers).forEach(k => delete answers[k]);
+  document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+  document.getElementById('parentName').value = '';
+  document.getElementById('parentPhone').value = '';
+  document.getElementById('schoolName').value = '';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').textContent = '결과지 받고 무료 상담 신청 →';
+  document.querySelectorAll('.loading-steps li').forEach(li => li.classList.remove('active'));
+  showScreen(0);
+}
+
+// init
+showScreen(0);
+</script>
+</body>
+</html>
